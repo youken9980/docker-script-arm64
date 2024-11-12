@@ -1,0 +1,17 @@
+{
+	"dbType":"mysql",
+	"idleTimeout":60000,
+	"initSqls":[],
+	"initSqlsGetConnection":true,
+	"instanceType":"READ_WRITE",
+	"maxCon":1000,
+	"maxConnectTimeout":3000,
+	"maxRetryCount":5,
+	"minCon":1,
+	"name":"prototypeDs",
+	"password":"Admin123",
+	"type":"JDBC",
+	"url":"jdbc:mysql://mysql-local:3306/mysql?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8",
+	"user":"root",
+	"weight":0
+}

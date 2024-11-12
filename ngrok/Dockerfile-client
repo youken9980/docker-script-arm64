@@ -1,0 +1,85 @@
+FROM golang:1.12-alpine AS temp
+
+ARG NGROK_DOMAIN="ngrok.com"
+ARG ALPINE_MIRROR="dl-cdn.alpinelinux.org"
+ARG GITHUB_MIRROR="https://github.com"
+
+ENV GOPROXY="https://goproxy.cn"
+ENV PROJ_SRC="/proj-src"
+
+RUN sed -i "s|dl-cdn.alpinelinux.org|${ALPINE_MIRROR}|g" /etc/apk/repositories
+RUN apk --update --no-cache add git make openssl
+
+ENV GIT_URL="${GITHUB_MIRROR}/inconshreveable/ngrok.git"
+
+RUN git clone --depth=1 ${GIT_URL} ${PROJ_SRC}
+WORKDIR ${PROJ_SRC}
+
+RUN openssl genrsa -out rootCA.key 2048 && \
+    openssl req -x509 -new -nodes -key rootCA.key -subj "/CN=$NGROK_DOMAIN" -days 9999 -out rootCA.pem && \
+    openssl genrsa -out device.key 2048 && \
+    openssl req -new -key device.key -subj "/CN=$NGROK_DOMAIN" -out device.csr && \
+    openssl x509 -req -in device.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out device.crt -days 9999 && \
+    cp rootCA.pem assets/client/tls/ngrokroot.crt && \
+    cp device.crt assets/server/tls/snakeoil.crt && \
+    cp device.key assets/server/tls/snakeoil.key
+
+RUN go env GO111MODULE=on
+RUN go env GOPROXY=${GOPROXY},direct
+
+RUN GOOS=linux GOARCH=amd64 make release-server
+RUN GOOS=linux GOARCH=amd64 make release-client
+
+RUN mkdir -p /ngrok/bin
+RUN cp -r ${PROJ_SRC}/assets /ngrok/.
+
+# RUN cp ${PROJ_SRC}/bin/ngrokd /ngrok/bin/.
+RUN cp ${PROJ_SRC}/bin/ngrok /ngrok/bin/.
+
+# linux服务端
+# 32位
+# GOOS=linux GOARCH=386 make release-server
+# 64位
+# GOOS=linux GOARCH=amd64 make release-server
+# linux客户端
+# 32位
+# GOOS=linux GOARCH=386 make release-client
+# 64位
+# GOOS=linux GOARCH=amd64 make release-client
+# arm
+# GOOS=linux GOARCH=arm make release-client
+# Mac OS服务端
+# 32位
+# GOOS=darwin GOARCH=386 make release-server
+# 64位
+# GOOS=darwin GOARCH=amd64 make release-server
+# Mac OS客户端
+# 32位
+# GOOS=darwin GOARCH=386 make release-client
+# 64位
+# GOOS=darwin GOARCH=amd64 make release-client
+# windows服务端
+# 32位
+# GOOS=windows GOARCH=386 make release-server
+# 64位
+# GOOS=windows GOARCH=amd64 make release-server
+# windows客户端
+# 32位
+# GOOS=windows GOARCH=386 make release-client
+# 64位
+# GOOS=windows GOARCH=amd64 make release-client
+
+
+FROM youken9980/alpine:3-glibc
+LABEL maintainer="YangJian <youken9980@163.com>"
+
+ENV PATH=$PATH:/usr/local/ngrok/bin
+
+COPY --from=temp /ngrok /usr/local/ngrok
+
+EXPOSE 4040
+
+STOPSIGNAL SIGTERM
+
+# ngrok -config="/home/root/.ngrok/ngrok.cfg" -log="stdout" -log-level="INFO" -subdomain="nginx" nginx:80
+CMD [ "/bin/sh" ]

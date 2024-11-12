@@ -1,0 +1,9 @@
+# system ignore
+.DS_Store
+Thumbs.db
+
+# ssl
+nginx/ssl
+
+# htpasswd
+registry/htpasswd

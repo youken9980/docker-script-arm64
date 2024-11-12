@@ -1,0 +1,27 @@
+FROM youken9980/alpine:3
+LABEL maintainer="YangJian <youken9980@163.com>"
+
+ARG GITHUB_MIRROR="https://github.com"
+ARG WGET_USER_AGENT="Mozilla"
+
+# https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.35-r1/glibc-2.35-r1.apk
+# https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.35-r1/glibc-bin-2.35-r1.apk
+# https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.35-r1/glibc-i18n-2.35-r1.apk
+
+RUN set -eux && \
+    \
+    GLIBC_VERSION="2.35-r1" && \
+    \
+    axel -n 8 -o /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
+    axel -n 8 ${GITHUB_MIRROR}/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk && \
+    axel -n 8 ${GITHUB_MIRROR}/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-bin-${GLIBC_VERSION}.apk && \
+    apk --update --no-cache add --force-overwrite glibc-${GLIBC_VERSION}.apk glibc-bin-${GLIBC_VERSION}.apk && \
+    /usr/glibc-compat/sbin/ldconfig /lib /usr/glibc-compat/lib && \
+    echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf && \
+    rm -rf glibc-${GLIBC_VERSION}.apk glibc-bin-${GLIBC_VERSION}.apk && \
+    \
+    rm -rf /var/cache/apk/*.*
+
+STOPSIGNAL SIGTERM
+
+CMD [ "/bin/sh" ]
