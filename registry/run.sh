@@ -39,11 +39,11 @@ docker run -d -p 15000:${serverPort} --restart always \
     -e "REGISTRY_AUTH_HTPASSWD_REALM=basic-realm" \
     -e "REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd" \
     -e "REGISTRY_HTTP_ADDR=:15000" \
-    -e "REGISTRY_HTTP_HOST=http://dockeregistry.localhost:15000" \
+    -e "REGISTRY_HTTP_HOST=http://dockeregistry.orb.local" \
     -e "REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY=/data" \
     -v ~/dockerVolume/registry/data:/data \
     -v $(pwd)/htpasswd:/auth/htpasswd \
     --network="${network}" --name="${containerName}" "${imageTag}"
-dockerLogsUntil "name=${containerName}" "${startSuccessTag}"
+# dockerLogsUntil "name=${containerName}" "${startSuccessTag}"
 
 # /etc/docker/registry/config.yml

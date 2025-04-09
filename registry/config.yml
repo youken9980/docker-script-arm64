@@ -24,5 +24,5 @@ health:
 #     enabled: true
 
 # 更换为上游的地址。若要使用 docker push 功能，则必须注释掉该段。
-# proxy:
-#   remoteurl: https://registry-1.docker.io
+proxy:
+  remoteurl: https://registry-1.docker.io
