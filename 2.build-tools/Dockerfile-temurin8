@@ -30,10 +30,10 @@ ARG UBUNTU_MIRROR="http://ports.ubuntu.com"
 RUN apt-get update && \
     apt-get install --no-install-recommends -y axel unzip
 
-# https://services.gradle.org/distributions/gradle-8.10.2-bin.zip
-# https://github.com/gradle/gradle-distributions/releases/download/v8.10.2/gradle-8.10.2-bin.zip
+# https://services.gradle.org/distributions/gradle-8.12.1-bin.zip
+# https://github.com/gradle/gradle-distributions/releases/download/v8.12.1/gradle-8.12.1-bin.zip
 ARG GITHUB_MIRROR="https://github.com"
-ENV GRADLE_VERSION="8.10.2"
+ENV GRADLE_VERSION="8.12.1"
 # ENV GRADLE_DOWNLOAD_URL="https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
 ENV GRADLE_DOWNLOAD_URL="${GITHUB_MIRROR}/gradle/gradle-distributions/releases/download/v${GRADLE_VERSION}/gradle-${GRADLE_VERSION}-bin.zip"
 ENV GRADLE_HOME="/usr/local/gradle"
