@@ -18,7 +18,7 @@ dockerRunBuild " \
 "
 
 docker build \
-    --build-arg "SERVER_PORT=8081" \
+    --build-arg "SERVER_PORT=8080" \
     -f Dockerfile \
     -t youken9980/jrebel-ls:latest \
     .
