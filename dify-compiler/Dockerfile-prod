@@ -1,0 +1,26 @@
+FROM youken9980/dify-compiler:latest
+LABEL maintainer="YangJian <youken9980@163.com>"
+
+ENV NODE_ENV=production
+ENV EDITION=SELF_HOSTED
+ENV DEPLOY_ENV=PRODUCTION
+ENV CONSOLE_API_URL=http://127.0.0.1:5001
+ENV APP_API_URL=http://127.0.0.1:5001
+ENV MARKETPLACE_API_URL=https://marketplace.dify.ai
+ENV MARKETPLACE_URL=https://marketplace.dify.ai
+ENV PORT=3000
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV PM2_INSTANCES=2
+
+WORKDIR /app/web
+COPY app/web /app/web
+
+RUN mkdir /.pm2 \
+    && chown -R root:0 /.pm2 /app/web \
+    && chmod -R g=u /.pm2 /app/web
+
+ARG COMMIT_SHA
+ENV COMMIT_SHA=${COMMIT_SHA}
+
+EXPOSE 3000
+ENTRYPOINT ["/bin/sh", "./entrypoint.sh"]
