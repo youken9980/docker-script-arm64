@@ -2,15 +2,15 @@
 
 alias ll="ls -la"
 
-cd /dify-web-eo-1.3.1
+cd /dify-web-eo
 # rm -rf .pnpm-store node_modules next-env.d.ts .next
 pnpm install --frozen-lockfile
 pnpm build
 
-cp -R /dify-web-eo-1.3.1/.next/standalone /app/web
-cp -R /dify-web-eo-1.3.1/.next/static /app/web/.next/static
-cp -R /dify-web-eo-1.3.1/public /app/web/public
-cp -R /dify-web-eo-1.3.1/docker/entrypoint.sh /app/web/entrypoint.sh
+cp -R /dify-web-eo/.next/standalone /app/web
+cp -R /dify-web-eo/.next/static /app/web/.next/static
+cp -R /dify-web-eo/public /app/web/public
+cp -R /dify-web-eo/docker/entrypoint.sh /app/web/entrypoint.sh
 cd /app/web
 
 # pnpm add -g pm2
