@@ -26,7 +26,7 @@ RUN set -eux && \
     \
     rm -rf /var/cache/apk/*.* && \
     \
-    npm install -g pnpm@10.8.0 && \
+    npm install -g pnpm@10.11.1 && \
     pnpm config set registry https://registry.npmmirror.com/ && \
     pnpm add -g pm2
 
