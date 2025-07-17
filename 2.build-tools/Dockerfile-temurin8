@@ -4,9 +4,9 @@ ARG UBUNTU_MIRROR="http://ports.ubuntu.com"
 RUN apt-get update && \
     apt-get install --no-install-recommends -y axel unzip
 
-# https://dlcdn.apache.org/maven/maven-3/3.9.10/binaries/apache-maven-3.9.10-bin.tar.gz
+# https://dlcdn.apache.org/maven/maven-3/3.9.11/binaries/apache-maven-3.9.11-bin.tar.gz
 ARG APACHE_MIRROR="https://dlcdn.apache.org"
-ENV MAVEN_VERSION="3.9.10"
+ENV MAVEN_VERSION="3.9.11"
 ENV MAVEN_DOWNLOAD_URL="${APACHE_MIRROR}/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
 ENV MAVEN_HOME="/usr/local/maven"
 ENV MAVEN_REPO="/usr/local/repository/maven"
@@ -30,10 +30,10 @@ ARG UBUNTU_MIRROR="http://ports.ubuntu.com"
 RUN apt-get update && \
     apt-get install --no-install-recommends -y axel unzip
 
-# https://services.gradle.org/distributions/gradle-8.14.2-bin.zip
-# https://github.com/gradle/gradle-distributions/releases/download/v8.14.2/gradle-8.14.2-bin.zip
+# https://services.gradle.org/distributions/gradle-8.14.3-bin.zip
+# https://github.com/gradle/gradle-distributions/releases/download/v8.14.3/gradle-8.14.3-bin.zip
 ARG GITHUB_MIRROR="https://github.com"
-ENV GRADLE_VERSION="8.14.2"
+ENV GRADLE_VERSION="8.14.3"
 # ENV GRADLE_DOWNLOAD_URL="https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
 ENV GRADLE_DOWNLOAD_URL="${GITHUB_MIRROR}/gradle/gradle-distributions/releases/download/v${GRADLE_VERSION}/gradle-${GRADLE_VERSION}-bin.zip"
 ENV GRADLE_HOME="/usr/local/gradle"
