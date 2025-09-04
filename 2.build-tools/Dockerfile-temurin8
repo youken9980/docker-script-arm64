@@ -11,7 +11,7 @@ ENV MAVEN_DOWNLOAD_URL="${APACHE_MIRROR}/maven/maven-3/${MAVEN_VERSION}/binaries
 ENV MAVEN_HOME="/usr/local/maven"
 ENV MAVEN_REPO="/usr/local/repository/maven"
 
-RUN axel -n 8 -o maven.tar.gz ${MAVEN_DOWNLOAD_URL} && \
+RUN wget -O maven.tar.gz ${MAVEN_DOWNLOAD_URL} && \
     mkdir -p ${MAVEN_HOME} && \
     tar -zxvf maven.tar.gz -C ${MAVEN_HOME} --strip-components=1 --no-same-owner && \
     cp ${MAVEN_HOME}/conf/settings.xml ${MAVEN_HOME}/conf/settings.xml.bak
