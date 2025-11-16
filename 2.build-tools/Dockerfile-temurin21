@@ -1,0 +1,72 @@
+FROM youken9980/temurin:21-jdk-noble AS maven
+
+ARG UBUNTU_MIRROR="http://ports.ubuntu.com"
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y axel unzip
+
+# https://dlcdn.apache.org/maven/maven-3/3.9.11/binaries/apache-maven-3.9.11-bin.tar.gz
+ARG APACHE_MIRROR="https://dlcdn.apache.org"
+ENV MAVEN_VERSION="3.9.11"
+ENV MAVEN_DOWNLOAD_URL="${APACHE_MIRROR}/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
+ENV MAVEN_HOME="/usr/local/maven"
+ENV MAVEN_REPO="/usr/local/repository/maven"
+
+RUN wget -O maven.tar.gz ${MAVEN_DOWNLOAD_URL} && \
+    mkdir -p ${MAVEN_HOME} && \
+    tar -zxvf maven.tar.gz -C ${MAVEN_HOME} --strip-components=1 --no-same-owner && \
+    cp ${MAVEN_HOME}/conf/settings.xml ${MAVEN_HOME}/conf/settings.xml.bak
+RUN sed -i '/  <!-- localRepository/i\  <localRepository>${MAVEN_REPO}</localRepository>' ${MAVEN_HOME}/conf/settings.xml && \
+    sed -i '/    <!-- mirror/i\    <mirror>' ${MAVEN_HOME}/conf/settings.xml && \
+    sed -i '/    <!-- mirror/i\        <id>aliyunmaven</id>' ${MAVEN_HOME}/conf/settings.xml && \
+    sed -i '/    <!-- mirror/i\        <mirrorOf>central</mirrorOf>' ${MAVEN_HOME}/conf/settings.xml && \
+    sed -i '/    <!-- mirror/i\        <name>阿里云公共仓库</name>' ${MAVEN_HOME}/conf/settings.xml && \
+    sed -i '/    <!-- mirror/i\        <url>https://maven.aliyun.com/repository/public</url>' ${MAVEN_HOME}/conf/settings.xml && \
+    sed -i '/    <!-- mirror/i\    </mirror>' ${MAVEN_HOME}/conf/settings.xml
+
+
+FROM youken9980/temurin:21-jdk-noble AS gradle
+
+ARG UBUNTU_MIRROR="http://ports.ubuntu.com"
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y axel unzip
+
+# https://services.gradle.org/distributions/gradle-8.14.3-bin.zip
+# https://github.com/gradle/gradle-distributions/releases/download/v8.14.3/gradle-8.14.3-bin.zip
+ARG GITHUB_MIRROR="https://github.com"
+ENV GRADLE_VERSION="8.14.3"
+# ENV GRADLE_DOWNLOAD_URL="https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
+ENV GRADLE_DOWNLOAD_URL="${GITHUB_MIRROR}/gradle/gradle-distributions/releases/download/v${GRADLE_VERSION}/gradle-${GRADLE_VERSION}-bin.zip"
+ENV GRADLE_HOME="/usr/local/gradle"
+RUN axel -n 8 -o gradle.zip ${GRADLE_DOWNLOAD_URL} && \
+    unzip gradle.zip && \
+    mv /gradle-${GRADLE_VERSION} ${GRADLE_HOME}
+
+
+FROM youken9980/temurin:21-jdk-noble
+LABEL maintainer="YangJian <youken9980@163.com>"
+
+ARG UBUNTU_MIRROR="http://ports.ubuntu.com"
+
+ENV MAVEN_HOME="/usr/local/maven"
+ENV MAVEN_REPO="/usr/local/repository/maven"
+ENV MAVEN_REPOSITORY="${MAVEN_REPO}"
+ENV M2_REPO="${MAVEN_REPO}"
+
+ENV GRADLE_HOME="/usr/local/gradle"
+ENV GRADLE_REPO="/usr/local/repository/gradle"
+ENV GRADLE_USER_HOME="${GRADLE_REPO}"
+
+ENV PATH="${PATH}:${MAVEN_HOME}/bin:${GRADLE_HOME}/bin"
+
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y git subversion yq libxml-xpath-perl && \
+    mkdir -p ${MAVEN_REPO} ${GRADLE_REPO} && \
+    \
+    rm -rf /var/lib/apt/lists/* \
+           /var/cache/* \
+           /tmp/*
+
+COPY --chown=root:root --from=maven ${MAVEN_HOME} ${MAVEN_HOME}
+COPY --chown=root:root --from=gradle ${GRADLE_HOME} ${GRADLE_HOME}
+
+VOLUME ["/app","/usr/local/repository/maven","/usr/local/repository/gradle"]

@@ -37,6 +37,8 @@ docker run -d -p 127.0.0.1:8012:8012 \
     -e KK_OFFICE_PREVIEW_TYPE="pdf" \
     -e WATERMARK_TXT="才华有限公司" \
     -e WATERMARK_ALPHA="0.1" \
+    -e KK_TRUST_HOST="*" \
+    -e KK_FILE_UPLOAD_DISABLE="false" \
     --network="${network}" --name="${containerName}" \
     "${imageTag}"
 dockerLogsUntil "name=${containerName}" "kkFileView[[:space:]]服务启动完成"

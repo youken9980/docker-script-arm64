@@ -1,7 +1,10 @@
-FROM youken9980/temurin:21-jre-noble
+FROM youken9980/temurin:17-jre-noble
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV KKFILEVIEW_HOME="/kkFileView"
+# 文件上传功能默认已禁用。如需开启，请通过以下方式配置：
+# ENV KK_FILE_UPLOAD_DISABLE=false
+# 请注意：文件上传限开发环境调试使用，生产环境建议保持关闭状态，避免非法上传导致的安全隐患。
 
 RUN set -eux && \
     \

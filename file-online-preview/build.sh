@@ -2,6 +2,7 @@
 set -eux
 
 source ../.env.docker
+BUILD_TOOLS_IMAGE="youken9980/build-tools-temurin17:latest"
 rm -rf ${APP_HOME_HOST}
 
 # https://gitee.com/kekingcn/file-online-preview.git
