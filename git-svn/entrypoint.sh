@@ -16,6 +16,7 @@ git config --global log.date local
 git config --global alias.geturl "config --get remote.origin.url"
 git config --global alias.last 'log -1'
 git config --global alias.lg "log --graph --color --abbrev-commit --pretty=format:'%Cred%h %Cgreen(%cd)%C(auto)%d %Creset%s %Cblue%an <%ae>' --date=format-local:'%Y-%m-%d %H:%M:%S'"
+git config --global init.defaultBranch main
 git config --global user.name "${GIT_USER_NAME}"
 git config --global user.email "${GIT_USER_EMAIL}"
 
