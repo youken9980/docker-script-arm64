@@ -1,4 +1,4 @@
-FROM alpine:3
+FROM alpine:3.21
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 ARG ALPINE_MIRROR="dl-cdn.alpinelinux.org"
