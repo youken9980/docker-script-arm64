@@ -1,4 +1,4 @@
-FROM youken9980/temurin:17-jre-noble
+FROM youken9980/temurin:21-jre-noble
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV KKFILEVIEW_HOME="/kkFileView"

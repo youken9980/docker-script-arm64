@@ -2,12 +2,12 @@
 set -eux
 
 source ../.env.docker
-BUILD_TOOLS_IMAGE="youken9980/build-tools-temurin17:latest"
+BUILD_TOOLS_IMAGE="youken9980/build-tools-temurin21:latest"
 rm -rf ${APP_HOME_HOST}
 
 # https://gitee.com/kekingcn/file-online-preview.git
 # https://github.com/kekingcn/kkFileView.git
-GIT_URL="${GITHUB_MIRROR}//kekingcn/kkFileView.git"
+GIT_URL="${GITHUB_MIRROR}/kekingcn/kkFileView.git"
 PROJ_SRC="${APP_HOME_CONTAINER}/proj-src"
 KKFILEVIEW_HOME="${APP_HOME_CONTAINER}/kkFileView"
 
