@@ -28,7 +28,7 @@ function dockerLogsUntil() {
 
 imageTag="youken9980/jrebel-ls:latest"
 containerName="jrebel-ls"
-serverPort="8080"
+serverPort="8081"
 network="mynet"
 startSuccessTag="{guid}(eg:http:"
 
