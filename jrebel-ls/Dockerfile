@@ -1,9 +1,9 @@
-FROM youken9980/temurin:8-jre-noble
+FROM youken9980/temurin:17-jre-noble
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 COPY --chown=root:root app/service.jar /service.jar
 
-ARG SERVER_PORT="8081"
+ARG SERVER_PORT="18081"
 ENV SERVER_PORT=${SERVER_PORT}
 EXPOSE ${SERVER_PORT}
 
