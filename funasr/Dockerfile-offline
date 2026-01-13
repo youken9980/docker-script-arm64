@@ -38,7 +38,5 @@ EXPOSE 10095
 STOPSIGNAL SIGTERM
 
 COPY entrypoint-offline.sh /workspace/FunASR/runtime/entrypoint.sh
-# ENTRYPOINT ["/workspace/FunASR/runtime/entrypoint.sh"]
-
-# CMD ["bash", "run_server.sh", "--download-model-dir", "/workspace/models", "--model-dir", "damo/speech_paraformer-large-vad-punc_asr_nat-zh-cn-16k-common-vocab8404-onnx", "--vad-dir", "damo/speech_fsmn_vad_zh-cn-16k-common-onnx", "--punc-dir", "damo/punc_ct-transformer_cn-en-common-vocab471067-large-onnx", "--itn-dir", "thuduj12/fst_itn_zh", "--lm-dir", "damo/speech_ngram_lm_zh-cn-ai-wesp-fst", "--certfile", "0", "--hotword", "/workspace/FunASR/runtime/websocket/hotwords.txt"]
-CMD ["/bin/bash"]
+RUN chmod a+x /workspace/FunASR/runtime/entrypoint.sh
+ENTRYPOINT ["/workspace/FunASR/runtime/entrypoint.sh"]

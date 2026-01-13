@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eux
+set -e
 cd /workspace/FunASR/runtime
 nohup bash run_server_2pass.sh \
   --download-model-dir /workspace/models \
@@ -13,3 +13,4 @@ nohup bash run_server_2pass.sh \
   --certfile /workspace/FunASR/runtime/ssl_key/server.crt \
   --keyfile /workspace/FunASR/runtime/ssl_key/server.key \
   --hotword /workspace/FunASR/runtime/websocket/hotwords.txt > log.txt 2>&1 &
+tail -n +1 -f log.txt
