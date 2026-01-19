@@ -5,6 +5,6 @@ containerName="funasr-offline"
 
 docker rm -f ${containerName}
 docker run --platform linux/amd64 -it -d -p 10095:10095 --privileged=true \
-  -v /Volumes/raid0/gpt/funasr-runtime-resources/models:/workspace/models \
+  -v ~/Destiny/Share/llm/funasr-runtime-resources:/workspace/models \
   --name ${containerName} "${imageTag}"
 # docker exec -it ${containerName} bash
