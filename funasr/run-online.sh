@@ -5,6 +5,6 @@ containerName="funasr-online"
 
 docker rm -f ${containerName}
 docker run --platform linux/amd64 -it -d -p 10096:10095 --privileged=true \
-  -v ~/Destiny/Share/llm/funasr-runtime-resources:/workspace/models \
+  -v ~/Destiny/Share/llm/funasr-runtime-resources/models:/workspace/models \
   --name ${containerName} "${imageTag}"
 # docker exec -it ${containerName} bash
