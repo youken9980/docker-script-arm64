@@ -15,6 +15,6 @@ function dockerRm() {
     fi
 }
 
-# dockerRm "ancestor=${imageTag}"
-# docker run -itd -v ~/dockerVolume/opencode/root:/root --name opencode --network="${network}" "${imageTag}"
-# docker exec -it $(docker ps -aq --filter ancestor="${imageTag}") /bin/sh
+dockerRm "ancestor=${imageTag}"
+docker run -itd -v ~/dockerVolume/opencode/root:/root --name opencode --network="${network}" "${imageTag}"
+docker exec -it $(docker ps -aq --filter ancestor="${imageTag}") /bin/sh
