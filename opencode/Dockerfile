@@ -11,7 +11,7 @@ ENV LC_ALL="en_US.UTF-8"
 RUN set -eux && \
     \
     sed -i "s|dl-cdn.alpinelinux.org|${ALPINE_MIRROR}|g" /etc/apk/repositories && \
-    apk --update --no-cache add tzdata ca-certificates axel && \
+    apk --update --no-cache add tzdata ca-certificates axel git && \
     mv /usr/share/zoneinfo/Asia/Shanghai /Shanghai && \
     rm -rf /usr/share/zoneinfo && \
     mkdir -p /usr/share/zoneinfo/Asia && \
