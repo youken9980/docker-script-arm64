@@ -3,7 +3,7 @@
 source ../.env.docker
 
 docker build \
-    --build-arg "DEBIAN_MIRROR=${DEBIAN_MIRROR}" \
+    --build-arg "DEBIAN_MIRROR=archive.debian.org" \
     --build-arg "KEYSERVER=${KEYSERVER}" \
     --platform linux/amd64 \
     -f Dockerfile-5-amd64 \

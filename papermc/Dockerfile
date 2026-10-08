@@ -2,12 +2,11 @@ FROM youken9980/temurin:21-jre-noble
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 # https://api.papermc.io/v2/projects/paper/versions/1.21.5/builds/103/downloads/paper-1.21.5-103.jar
+# https://fill-data.papermc.io/v1/objects/5ffef465eeeb5f2a3c23a24419d97c51afd7dbb4923ff42df9a3f58bba1ccfba/paper-1.21.11-132.jar
 RUN set -eux && \
-    PAPERMC_VERSION="1.21.5" && \
-    PAPERMC_BUILD="103" && \
     \
     mkdir -p /papermc && cd /papermc && \
-    wget -O papermc.jar https://api.papermc.io/v2/projects/paper/versions/${PAPERMC_VERSION}/builds/${PAPERMC_BUILD}/downloads/paper-${PAPERMC_VERSION}-${PAPERMC_BUILD}.jar && \
+    wget -O papermc.jar https://fill-data.papermc.io/v1/objects/5ffef465eeeb5f2a3c23a24419d97c51afd7dbb4923ff42df9a3f58bba1ccfba/paper-1.21.11-132.jar && \
     java -jar papermc.jar && \
     sed -i 's|eula=false|eula=true|g' eula.txt && \
     sed -i 's|online-mode=true|online-mode=false|g' server.properties && \
